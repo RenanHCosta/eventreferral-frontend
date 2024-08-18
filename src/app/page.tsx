@@ -21,7 +21,7 @@ export default function Home({ searchParams }: HomeProps) {
       </div>
 
       <div className="mb-32 lg:mb-0 lg:w-full lg:max-w-5xl">
-        <Leaderboard page={searchParams.page ? Number(searchParams.page) : 0} />
+        <Leaderboard page={searchParams.page ? Number(searchParams.page) : 1} />
       </div>
     </main>
   );

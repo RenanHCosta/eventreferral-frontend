@@ -17,8 +17,36 @@ type GetLeaderboardResponse = {
   empty: boolean;
 };
 
+type RegisterResponse = {
+  name: string;
+  points: number;
+  referralId: string;
+};
+
 class EventMembersService {
   constructor(private httpClient: HttpClientProps) {}
+
+  async register(
+    name: string,
+    email: string,
+    referralId: string = ""
+  ): Promise<ResponseType<RegisterResponse>> {
+    try {
+      const { data, status } = await this.httpClient.post(EVENT_MEMBERS, {
+        name,
+        email,
+        referralId,
+      });
+
+      return { data, status };
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return { data: null, status: err.status || 503 };
+      }
+
+      return { data: null, status: 500 };
+    }
+  }
 
   async getLeaderboard(
     page: number,

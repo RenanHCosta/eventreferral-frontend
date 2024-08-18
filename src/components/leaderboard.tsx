@@ -38,34 +38,33 @@ export async function Leaderboard({ page }: LeaderboardProps) {
     if (!leaderboard) {
       return [];
     }
-  
+
     const totalPages = leaderboard.totalPages;
     const start = Math.max(1, page - 2);
     const end = Math.min(totalPages, page + 2);
-  
+
     const range = [];
-  
+
     if (start > 1) {
       range.push(1);
       if (start > 2) {
-        range.push('...');
+        range.push("...");
       }
     }
-  
+
     for (let i = start; i <= end; i++) {
       range.push(i);
     }
-  
+
     if (end < totalPages) {
       if (end < totalPages - 1) {
-        range.push('...');
+        range.push("...");
       }
       range.push(totalPages);
     }
-  
+
     return range;
   };
-  
 
   return (
     <>
@@ -92,7 +91,7 @@ export async function Leaderboard({ page }: LeaderboardProps) {
           ))}
         </TableBody>
       </Table>
-      <Pagination>
+      <Pagination className="mt-8">
         <PaginationContent>
           {hasPrevious && (
             <PaginationItem>
@@ -105,9 +104,22 @@ export async function Leaderboard({ page }: LeaderboardProps) {
             <PaginationItem key={index}>
               <PaginationLink
                 isActive={typeof pageNumber === "number" && pageNumber === page}
-                href={`${pageNumber === 0 ? "/" : `?page=${pageNumber}`}`}
+                className={`${
+                  typeof pageNumber === "string" ? "cursor-default" : ""
+                }`}
+                href={`${
+                  typeof pageNumber === "number" && pageNumber === 0
+                    ? "/"
+                    : typeof pageNumber === "number"
+                    ? `?page=${pageNumber}`
+                    : "#"
+                }`}
               >
-                {typeof pageNumber === "string" ? "..." : pageNumber}
+                {typeof pageNumber === "string" ? (
+                  <PaginationEllipsis />
+                ) : (
+                  pageNumber
+                )}
               </PaginationLink>
             </PaginationItem>
           ))}

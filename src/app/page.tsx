@@ -1,8 +1,13 @@
 import { Leaderboard } from "@/components/leaderboard";
 import { ThemeToggler } from "@/components/theme-toggler";
-import Image from "next/image";
 
-export default function Home() {
+type SearchParams = { [key: string]: string | string[] | undefined };
+
+interface HomeProps {
+  searchParams: SearchParams;
+}
+
+export default function Home({ searchParams }: HomeProps) {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-end font-mono text-sm lg:flex">
@@ -16,7 +21,7 @@ export default function Home() {
       </div>
 
       <div className="mb-32 lg:mb-0 lg:w-full lg:max-w-5xl">
-        <Leaderboard />
+        <Leaderboard page={searchParams.page ? Number(searchParams.page) : 0} />
       </div>
     </main>
   );

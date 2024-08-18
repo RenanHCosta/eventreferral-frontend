@@ -18,34 +18,19 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-const users = [
-  {
-    name: "Renan Henrique",
-    points: 5,
-  },
-  {
-    name: "Renan Henrique",
-    points: 2,
-  },
-  {
-    name: "Renan Henrique",
-    points: 1,
-  },
-  {
-    name: "Renan Henrique",
-    points: 1,
-  },
-  {
-    name: "Renan Henrique",
-    points: 1,
-  },
-  {
-    name: "Renan Henrique",
-    points: 1,
-  },
-];
+import apiInstance from "@/services/http-service";
+import { LEADERBOARD_PAGE_SIZE } from "@/constants";
 
-export function Leaderboard() {
+interface LeaderboardProps {
+  page: number;
+}
+
+export async function Leaderboard({ page }: LeaderboardProps) {
+  const { data: leaderboard } = await apiInstance.eventMembers.getLeaderboard(
+    page,
+    LEADERBOARD_PAGE_SIZE
+  );
+
   return (
     <>
       <Table className="caption-top">
@@ -57,7 +42,7 @@ export function Leaderboard() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map((user, index) => (
+          {leaderboard?.content.map((user, index) => (
             <TableRow key={index}>
               <TableCell className="font-medium whitespace-nowrap">
                 {user.name}
